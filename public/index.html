@@ -2,34 +2,48 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>WeatherNow</title>
+
     <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <h1>🌤 WeatherNow</h1>
+<h1>🌤 WeatherNow</h1>
 
-        <p class="subtitle">Check real-time weather for any city</p>
+<p class="subtitle">
+Real-Time Weather Application
+</p>
 
-       <form class="search-box" onsubmit="getWeather(event)">
-    <input
-        type="text"
-        id="city"
-        placeholder="Enter city name"
-    >
-    <button type="submit">Search</button>
-    </form>
+<div class="search">
 
-        <div id="result"></div>
+<input
+type="text"
+id="city"
+placeholder="Enter City Name">
 
-    </div>
+<button onclick="getWeather()">
 
-    <script src="script.js"></script>
+🔍
+
+</button>
+
+</div>
+
+<div id="result">
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
 
 </body>
 

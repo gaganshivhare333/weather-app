@@ -1,52 +1,60 @@
-async function getWeather(event){
+const icons = {
+    Clear: "☀️",
+    Clouds: "☁️",
+    Rain: "🌧️",
+    Thunderstorm: "⛈️",
+    Drizzle: "🌦️",
+    Snow: "❄️",
+    Mist: "🌫️",
+    Haze: "🌫️"
+};
 
-    event.preventDefault(); // Prevents page refresh
+const icon = icons[data.condition] || "🌍";
 
-    const city = document.getElementById("city").value;
+result.style.display = "block";
 
+result.innerHTML = `
 
+<div class="weather-icon">
 
+${icon}
 
-    const result=document.getElementById("result");
+</div>
 
-    if(city===""){
-        alert("Please enter a city name");
-        return;
-    }
+<div class="temp">
 
-    try{
+${data.temperature}°C
 
-        const response=await fetch(`/weather?city=${city}`);
+</div>
 
-        const data=await response.json();
+<div class="condition">
 
-        if(!response.ok){
-            result.style.display="block";
-            result.innerHTML=`<h3>${data.message}</h3>`;
-            return;
-        }
+${data.condition}
 
-        result.style.display="block";
+</div>
 
-        result.innerHTML=`
-            <h2>📍 ${data.city}</h2>
+<div class="info">
 
-            <p>🌡 <strong>Temperature:</strong> ${data.temperature} °C</p>
+<span>📍 City</span>
 
-            <p>💧 <strong>Humidity:</strong> ${data.humidity}%</p>
+<span>${data.city}</span>
 
-            <p>🌬 <strong>Wind Speed:</strong> ${data.wind} m/s</p>
+</div>
 
-            <p>☁ <strong>Condition:</strong> ${data.condition}</p>
-        `;
+<div class="info">
 
-    }
+<span>💧 Humidity</span>
 
-    catch(error){
+<span>${data.humidity}%</span>
 
-        result.style.display="block";
-        result.innerHTML="<h3>Something went wrong!</h3>";
+</div>
 
-    }
+<div class="info">
 
-}
+<span>🌬 Wind</span>
+
+<span>${data.wind} m/s</span>
+
+</div>
+
+`;
