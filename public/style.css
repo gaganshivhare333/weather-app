@@ -7,7 +7,11 @@ font-family:Arial, Helvetica, sans-serif;
 
 body{
 
-height:100vh;
+margin:0;
+
+font-family:Arial;
+
+background:linear-gradient(135deg,#4facfe,#00f2fe);
 
 display:flex;
 
@@ -15,7 +19,9 @@ justify-content:center;
 
 align-items:center;
 
-background:linear-gradient(135deg,#4facfe,#00f2fe);
+min-height:100vh;
+
+transition:.5s;
 
 }
 
@@ -23,91 +29,96 @@ background:linear-gradient(135deg,#4facfe,#00f2fe);
 
 width:420px;
 
-padding:35px;
-
-border-radius:20px;
-
-background:rgba(255,255,255,.15);
+background:rgba(255,255,255,.18);
 
 backdrop-filter:blur(15px);
 
-box-shadow:0 15px 35px rgba(0,0,0,.2);
+padding:30px;
 
-text-align:center;
+border-radius:20px;
+
+box-shadow:0 15px 30px rgba(0,0,0,.25);
 
 color:white;
 
-}
-
-h1{
-
-margin-bottom:10px;
-
-font-size:38px;
+text-align:center;
 
 }
 
-.subtitle{
-
-margin-bottom:25px;
-
-opacity:.8;
-
-}
-
-.search{
+.search-box{
 
 display:flex;
 
-justify-content:center;
-
 gap:10px;
+
+margin-bottom:15px;
 
 }
 
-input{
+.search-box input{
 
-width:260px;
+flex:1;
 
-padding:14px;
+padding:12px;
 
 border:none;
 
 border-radius:30px;
 
-font-size:16px;
-
 outline:none;
 
 }
 
-button{
+.search-box button{
 
-width:55px;
+padding:12px 18px;
 
 border:none;
 
-border-radius:50%;
-
-background:white;
-
-font-size:22px;
+border-radius:30px;
 
 cursor:pointer;
 
-transition:.3s;
+}
+
+.location-btn{
+
+    width:100%;
+
+    margin-top:15px;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:30px;
+
+    background:#ffffff;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    transition:.3s;
 
 }
 
-button:hover{
+.location-btn:hover{
 
-transform:scale(1.08);
+    transform:scale(1.02);
+
+}
+#loading{
+
+display:none;
+
+margin:20px;
+
+font-size:18px;
 
 }
 
 #result{
-
-margin-top:30px;
 
 display:none;
 
@@ -115,9 +126,7 @@ display:none;
 
 .weather-icon{
 
-font-size:70px;
-
-margin:20px 0;
+width:100px;
 
 }
 
@@ -129,26 +138,28 @@ font-weight:bold;
 
 }
 
-.condition{
-
-font-size:22px;
-
-margin-bottom:25px;
-
-}
-
 .info{
 
 display:flex;
 
 justify-content:space-between;
 
-padding:14px;
+padding:12px;
 
 margin-top:10px;
 
 background:rgba(255,255,255,.15);
 
-border-radius:12px;
+border-radius:10px;
+
+}
+
+footer{
+
+margin-top:20px;
+
+font-size:13px;
+
+opacity:.8;
 
 }

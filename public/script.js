@@ -1,60 +1,161 @@
-const icons = {
-    Clear: "☀️",
-    Clouds: "☁️",
-    Rain: "🌧️",
-    Thunderstorm: "⛈️",
-    Drizzle: "🌦️",
-    Snow: "❄️",
-    Mist: "🌫️",
-    Haze: "🌫️"
-};
+async function getWeather(event){
 
-const icon = icons[data.condition] || "🌍";
+    if(event) event.preventDefault();
 
-result.style.display = "block";
+    const city=document.getElementById("city").value;
 
-result.innerHTML = `
+    fetchWeather(`/weather?city=${city}`);
 
-<div class="weather-icon">
+}
 
-${icon}
+async function fetchWeather(url){
 
-</div>
+    const result=document.getElementById("result");
 
-<div class="temp">
+    const loading=document.getElementById("loading");
 
-${data.temperature}°C
+    loading.style.display="block";
 
-</div>
+    result.style.display="none";
 
-<div class="condition">
+    const response=await fetch(url);
 
-${data.condition}
+    const data=await response.json();
 
-</div>
+    loading.style.display="none";
 
-<div class="info">
+    if(!response.ok){
 
-<span>📍 City</span>
+        result.style.display="block";
 
-<span>${data.city}</span>
+        result.innerHTML="<h2>❌ City not found</h2>";
 
-</div>
+        return;
 
-<div class="info">
+    }
 
-<span>💧 Humidity</span>
+    const bg={
 
-<span>${data.humidity}%</span>
+        Clear:"linear-gradient(135deg,#56CCF2,#2F80ED)",
 
-</div>
+        Clouds:"linear-gradient(135deg,#bdc3c7,#2c3e50)",
 
-<div class="info">
+        Rain:"linear-gradient(135deg,#4b79a1,#283e51)",
 
-<span>🌬 Wind</span>
+        Snow:"linear-gradient(135deg,#E6DADA,#274046)",
 
-<span>${data.wind} m/s</span>
+        Thunderstorm:"linear-gradient(135deg,#232526,#414345)"
 
-</div>
+    };
 
-`;
+    document.body.style.background=bg[data.condition]||bg.Clear;
+
+    const today=new Date();
+
+    const icon=`https://openweathermap.org/img/wn/${data.icon}@4x.png`;
+
+    result.style.display="block";
+
+    result.innerHTML=`
+
+        <img class="weather-icon" src="${icon}">
+
+        <h2>${data.city}, ${data.country}</h2>
+
+        <h1>${data.temperature}°C</h1>
+
+        <h3>${data.description}</h3>
+
+        <p>${today.toDateString()}</p>
+
+        <div class="info">
+
+            <span>🌡 Feels Like</span>
+
+            <span>${data.feelsLike}°C</span>
+
+        </div>
+
+        <div class="info">
+
+            <span>⬇ Min Temp</span>
+
+            <span>${data.minTemp}°C</span>
+
+        </div>
+
+        <div class="info">
+
+            <span>⬆ Max Temp</span>
+
+            <span>${data.maxTemp}°C</span>
+
+        </div>
+
+        <div class="info">
+
+            <span>💧 Humidity</span>
+
+            <span>${data.humidity}%</span>
+
+        </div>
+
+        <div class="info">
+
+            <span>🌬 Wind</span>
+
+            <span>${data.wind} m/s</span>
+
+        </div>
+
+        <div class="info">
+
+            <span>👁 Visibility</span>
+
+            <span>${data.visibility} km</span>
+
+        </div>
+
+        <div class="info">
+
+            <span>🌡 Pressure</span>
+
+            <span>${data.pressure} hPa</span>
+
+        </div>
+
+    `;
+
+}
+
+function getLocation(){
+
+    if(!navigator.geolocation){
+
+        alert("Geolocation is not supported.");
+
+        return;
+
+    }
+
+    navigator.geolocation.getCurrentPosition(
+
+        position=>{
+
+            const lat=position.coords.latitude;
+
+            const lon=position.coords.longitude;
+
+            fetchWeather(`/weather?lat=${lat}&lon=${lon}`);
+
+        },
+
+        ()=>{
+
+            alert("Unable to get your location.");
+
+        }
+
+    );
+
+}
