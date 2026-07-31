@@ -5,13 +5,13 @@
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>WeatherNow</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
 
     <link rel="preconnect"
           href="https://fonts.gstatic.com"
@@ -20,7 +20,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
           rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+          href="style.css">
 
 </head>
 
@@ -52,15 +53,13 @@
 
         <form
             class="search-box"
-            <button class="location-btn" onclick="getLocation()">
-            📍 Use My Location
-            </button>
             onsubmit="getWeather(event)">
 
             <input
                 id="city"
                 type="text"
-                placeholder="Search for a city...">
+                placeholder="Search for a city..."
+                autocomplete="off">
 
             <button type="submit">
 
@@ -70,14 +69,27 @@
 
         </form>
 
+        <button
+            class="location-btn"
+            onclick="getLocation()">
+
+            📍 Use My Location
+
+        </button>
+
     </section>
-        <div id="loader" class="loader hidden">
 
-    <div class="spinner"></div>
+    <!-- Loader -->
 
-    <p>Fetching weather...</p>
+    <div id="loader"
+         class="loader hidden">
 
-</div>
+        <div class="spinner"></div>
+
+        <p>Fetching weather...</p>
+
+    </div>
+
     <!-- Dashboard -->
 
     <section class="dashboard">
@@ -108,8 +120,9 @@
 
                     <img
                         id="weatherIcon"
+                        class="weather-icon"
                         src=""
-                        class="weather-icon">
+                        alt="Weather Icon">
 
                 </div>
 
@@ -139,11 +152,7 @@
 
                     <h4>Feels Like</h4>
 
-                    <span id="feelsLike">
-
-                        --
-
-                    </span>
+                    <span id="feelsLike">--</span>
 
                 </div>
 
@@ -151,11 +160,7 @@
 
                     <h4>Humidity</h4>
 
-                    <span id="humidity">
-
-                        --
-
-                    </span>
+                    <span id="humidity">--</span>
 
                 </div>
 
@@ -163,11 +168,7 @@
 
                     <h4>Wind</h4>
 
-                    <span id="wind">
-
-                        --
-
-                    </span>
+                    <span id="wind">--</span>
 
                 </div>
 
@@ -175,11 +176,7 @@
 
                     <h4>Pressure</h4>
 
-                    <span id="pressure">
-
-                        --
-
-                    </span>
+                    <span id="pressure">--</span>
 
                 </div>
 
@@ -203,11 +200,7 @@
 
                     <span>📍 Country</span>
 
-                    <span id="country">
-
-                        --
-
-                    </span>
+                    <span id="country">--</span>
 
                 </div>
 
@@ -215,11 +208,7 @@
 
                     <span>⬆ Max Temp</span>
 
-                    <span id="maxTemp">
-
-                        --
-
-                    </span>
+                    <span id="maxTemp">--</span>
 
                 </div>
 
@@ -227,11 +216,7 @@
 
                     <span>⬇ Min Temp</span>
 
-                    <span id="minTemp">
-
-                        --
-
-                    </span>
+                    <span id="minTemp">--</span>
 
                 </div>
 
@@ -239,11 +224,7 @@
 
                     <span>👁 Visibility</span>
 
-                    <span id="visibility">
-
-                        --
-
-                    </span>
+                    <span id="visibility">--</span>
 
                 </div>
 
@@ -251,11 +232,7 @@
 
                     <span>🌡 Pressure</span>
 
-                    <span id="pressure2">
-
-                        --
-
-                    </span>
+                    <span id="pressure2">--</span>
 
                 </div>
 
@@ -263,11 +240,7 @@
 
                     <span>☁ Condition</span>
 
-                    <span id="condition">
-
-                        --
-
-                    </span>
+                    <span id="condition">--</span>
 
                 </div>
 
@@ -277,41 +250,46 @@
 
     </section>
 
+    <!-- Forecast -->
+
+    <section class="forecast-section">
+
+        <h2>
+
+            5-Day Forecast
+
+        </h2>
+
+        <div
+            id="forecastContainer"
+            class="forecast-container">
+
+        </div>
+
+    </section>
+
+    <!-- Footer -->
+
+    <footer>
+
+        <p>
+
+            Powered by OpenWeather API
+
+        </p>
+
+        <p>
+
+            Developed by Gagan Shivhare
+
+        </p>
+
+    </footer>
+
 </div>
-<section class="forecast-section">
-
-    <h2>
-
-        5-Day Forecast
-
-    </h2>
-
-    <div
-        class="forecast-container"
-        id="forecastContainer">
-
-    </div>
-
-</section>
 
 <script src="script.js"></script>
 
-<footer>
-
-<p>
-
-Powered by OpenWeather API
-
-</p>
-
-<p>
-
-Made by Gagan Shivhare
-
-</p>
-
-</footer>
 </body>
-
 
 </html>

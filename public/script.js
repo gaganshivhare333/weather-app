@@ -65,7 +65,7 @@ function updateUI(data) {
             month: "long",
             day: "numeric",
             year: "numeric"
-            
+
 
         });
 
@@ -119,6 +119,7 @@ function updateUI(data) {
         data.condition;
 
     changeBackground(data.condition);
+    loadForecast(data.city);
 
 }
 
