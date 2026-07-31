@@ -11,17 +11,19 @@ body{
 
     min-height:100vh;
 
+    margin:0;
+
+    font-family:'Poppins',sans-serif;
+
+    background:linear-gradient(135deg,#E3F2FD,#BBDEFB,#90CAF9);
+
+    color:#1E293B;
+
     display:flex;
 
     justify-content:center;
 
     align-items:center;
-
-    background:linear-gradient(135deg,#080B2D,#11185C,#1E2D7D);
-
-    color:white;
-
-    overflow-x:hidden;
 
 }
 
@@ -110,9 +112,13 @@ header{
 
 }
 
-.search-box input::placeholder{
+.search-box input{
 
-    color:#BFC5E2;
+background:white;
+
+color:#333;
+
+box-shadow:0 10px 20px rgba(0,0,0,.08);
 
 }
 .search-box button{
@@ -225,17 +231,13 @@ header{
 
 .card{
 
-    background:rgba(255,255,255,.08);
+background:rgba(255,255,255,.65);
 
-    backdrop-filter:blur(20px);
+backdrop-filter:blur(20px);
 
-    border:1px solid rgba(255,255,255,.08);
+border:1px solid rgba(255,255,255,.5);
 
-    border-radius:18px;
-
-    padding:22px;
-
-    transition:.35s;
+color:#1E293B;
 
 }
 
@@ -268,15 +270,15 @@ header{
 }
 .right{
 
-    background:rgba(255,255,255,.06);
+    background:rgba(255,255,255,.65);
 
-    backdrop-filter:blur(18px);
+    backdrop-filter:blur(20px);
 
     border-radius:28px;
 
-    padding:30px;
+    border:1px solid rgba(255,255,255,.6);
 
-    border:1px solid rgba(255,255,255,.08);
+    color:#1E293B;
 
 }
 
