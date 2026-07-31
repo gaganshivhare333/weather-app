@@ -74,6 +74,44 @@ app.get("/weather", async (req, res) => {
     }
 
 });
+app.get("/forecast", async (req, res) => {
+
+    const city = req.query.city;
+
+    try {
+
+        const response = await axios.get(
+            `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${process.env.API_KEY}&units=metric`
+        );
+
+        const forecast = response.data.list
+            .filter(item => item.dt_txt.includes("12:00:00"))
+            .slice(0, 5)
+            .map(item => ({
+
+                day: new Date(item.dt_txt).toLocaleDateString("en-US", {
+                    weekday: "short"
+                }),
+
+                temp: Math.round(item.main.temp),
+
+                icon: item.weather[0].icon,
+
+                weather: item.weather[0].main
+
+            }));
+
+        res.json(forecast);
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: "Unable to fetch forecast"
+        });
+
+    }
+
+});
 
 app.listen(PORT, () => {
 

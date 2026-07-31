@@ -1,18 +1,26 @@
-
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-<title>WeatherNow</title>
+    <title>WeatherNow</title>
 
-<link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -20,60 +28,290 @@ content="width=device-width, initial-scale=1.0">
 
 <div class="container">
 
-<h1>🌤 WeatherNow</h1>
+    <!-- Header -->
 
-<p class="subtitle">
-Real-Time Weather Application
-</p>
+    <header>
 
-<form class="search-box"
-onsubmit="getWeather(event)">
+        <div class="logo">
 
-<input
-id="city"
-type="text"
-placeholder="Enter City Name">
+            🌤 WeatherNow
 
-<button type="submit">
+        </div>
 
-🔍
+    </header>
 
-</button>
+    <!-- Hero -->
 
-</form>
+    <section class="hero">
 
-<button
-class="location-btn"
-onclick="getLocation()">
+        <h1>
 
-📍 Use My Location
+            How's the weather today?
 
-</button>
+        </h1>
 
-<div id="loading">
+        <form
+            class="search-box"
+            <button class="location-btn" onclick="getLocation()">
+            📍 Use My Location
+            </button>
+            onsubmit="getWeather(event)">
 
-Loading...
+            <input
+                id="city"
+                type="text"
+                placeholder="Search for a city...">
+
+            <button type="submit">
+
+                Search
+
+            </button>
+
+        </form>
+
+    </section>
+        <div id="loader" class="loader hidden">
+
+    <div class="spinner"></div>
+
+    <p>Fetching weather...</p>
 
 </div>
+    <!-- Dashboard -->
 
-<div id="result">
+    <section class="dashboard">
+
+        <!-- LEFT -->
+
+        <div class="left">
+
+            <div class="weather-card">
+
+                <div class="weather-top">
+
+                    <div>
+
+                        <h2 id="cityName">
+
+                            Search a City
+
+                        </h2>
+
+                        <p id="todayDate">
+
+                            --
+
+                        </p>
+
+                    </div>
+
+                    <img
+                        id="weatherIcon"
+                        src=""
+                        class="weather-icon">
+
+                </div>
+
+                <div
+                    class="temperature"
+                    id="temperature">
+
+                    --
+
+                </div>
+
+                <p
+                    class="description"
+                    id="description">
+
+                    Weather Description
+
+                </p>
+
+            </div>
+
+            <!-- Bottom Cards -->
+
+            <div class="stats">
+
+                <div class="card">
+
+                    <h4>Feels Like</h4>
+
+                    <span id="feelsLike">
+
+                        --
+
+                    </span>
+
+                </div>
+
+                <div class="card">
+
+                    <h4>Humidity</h4>
+
+                    <span id="humidity">
+
+                        --
+
+                    </span>
+
+                </div>
+
+                <div class="card">
+
+                    <h4>Wind</h4>
+
+                    <span id="wind">
+
+                        --
+
+                    </span>
+
+                </div>
+
+                <div class="card">
+
+                    <h4>Pressure</h4>
+
+                    <span id="pressure">
+
+                        --
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT -->
+
+        <div class="right">
+
+            <h2>
+
+                Weather Details
+
+            </h2>
+
+            <div class="details">
+
+                <div class="detail">
+
+                    <span>📍 Country</span>
+
+                    <span id="country">
+
+                        --
+
+                    </span>
+
+                </div>
+
+                <div class="detail">
+
+                    <span>⬆ Max Temp</span>
+
+                    <span id="maxTemp">
+
+                        --
+
+                    </span>
+
+                </div>
+
+                <div class="detail">
+
+                    <span>⬇ Min Temp</span>
+
+                    <span id="minTemp">
+
+                        --
+
+                    </span>
+
+                </div>
+
+                <div class="detail">
+
+                    <span>👁 Visibility</span>
+
+                    <span id="visibility">
+
+                        --
+
+                    </span>
+
+                </div>
+
+                <div class="detail">
+
+                    <span>🌡 Pressure</span>
+
+                    <span id="pressure2">
+
+                        --
+
+                    </span>
+
+                </div>
+
+                <div class="detail">
+
+                    <span>☁ Condition</span>
+
+                    <span id="condition">
+
+                        --
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
 
 </div>
+<section class="forecast-section">
 
-<footer>
+    <h2>
 
-Powered by OpenWeather API
+        5-Day Forecast
 
-<br>
+    </h2>
 
-Developed by Gagan Shivhare
+    <div
+        class="forecast-container"
+        id="forecastContainer">
 
-</footer>
+    </div>
 
-</div>
+</section>
 
 <script src="script.js"></script>
 
+<footer>
+
+<p>
+
+Powered by OpenWeather API
+
+</p>
+
+<p>
+
+Made by Gagan Shivhare
+
+</p>
+
+</footer>
 </body>
+
 
 </html>

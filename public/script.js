@@ -1,136 +1,187 @@
-async function getWeather(event){
+async function getWeather(event) {
 
-    if(event) event.preventDefault();
+    if (event) event.preventDefault();
 
-    const city=document.getElementById("city").value;
+    const city = document.getElementById("city").value.trim();
 
-    fetchWeather(`/weather?city=${city}`);
+    if (!city) {
+        alert("Please enter a city name.");
+        return;
+    }
+
+    fetchWeather(`/weather?city=${encodeURIComponent(city)}`);
 
 }
 
 async function fetchWeather(url){
 
-    const result=document.getElementById("result");
+    const loader=document.getElementById("loader");
 
-    const loading=document.getElementById("loading");
+    loader.classList.remove("hidden");
 
-    loading.style.display="block";
+    try{
+        
+        const response=await fetch(url);
 
-    result.style.display="none";
+        const data=await response.json();
 
-    const response=await fetch(url);
+        loader.classList.add("hidden");
 
-    const data=await response.json();
+        if(!response.ok){
 
-    loading.style.display="none";
+            showError(data.message);
 
-    if(!response.ok){
+            return;
 
-        result.style.display="block";
+        }
 
-        result.innerHTML="<h2>❌ City not found</h2>";
-
-        return;
+        updateUI(data);
 
     }
 
-    const bg={
+    catch(error){
 
-        Clear:"linear-gradient(135deg,#56CCF2,#2F80ED)",
+        loader.classList.add("hidden");
 
-        Clouds:"linear-gradient(135deg,#bdc3c7,#2c3e50)",
+        showError("Unable to fetch weather.");
 
-        Rain:"linear-gradient(135deg,#4b79a1,#283e51)",
-
-        Snow:"linear-gradient(135deg,#E6DADA,#274046)",
-
-        Thunderstorm:"linear-gradient(135deg,#232526,#414345)"
-
-    };
-
-    document.body.style.background=bg[data.condition]||bg.Clear;
-
-    const today=new Date();
-
-    const icon=`https://openweathermap.org/img/wn/${data.icon}@4x.png`;
-
-    result.style.display="block";
-
-    result.innerHTML=`
-
-        <img class="weather-icon" src="${icon}">
-
-        <h2>${data.city}, ${data.country}</h2>
-
-        <h1>${data.temperature}°C</h1>
-
-        <h3>${data.description}</h3>
-
-        <p>${today.toDateString()}</p>
-
-        <div class="info">
-
-            <span>🌡 Feels Like</span>
-
-            <span>${data.feelsLike}°C</span>
-
-        </div>
-
-        <div class="info">
-
-            <span>⬇ Min Temp</span>
-
-            <span>${data.minTemp}°C</span>
-
-        </div>
-
-        <div class="info">
-
-            <span>⬆ Max Temp</span>
-
-            <span>${data.maxTemp}°C</span>
-
-        </div>
-
-        <div class="info">
-
-            <span>💧 Humidity</span>
-
-            <span>${data.humidity}%</span>
-
-        </div>
-
-        <div class="info">
-
-            <span>🌬 Wind</span>
-
-            <span>${data.wind} m/s</span>
-
-        </div>
-
-        <div class="info">
-
-            <span>👁 Visibility</span>
-
-            <span>${data.visibility} km</span>
-
-        </div>
-
-        <div class="info">
-
-            <span>🌡 Pressure</span>
-
-            <span>${data.pressure} hPa</span>
-
-        </div>
-
-    `;
+    }
 
 }
 
-function getLocation(){
+function updateUI(data) {
 
-    if(!navigator.geolocation){
+    // City
+    document.getElementById("cityName").textContent =
+        `${data.city}, ${data.country}`;
+
+    // Date
+    const today = new Date();
+
+    document.getElementById("todayDate").textContent =
+        today.toLocaleDateString("en-US", {
+
+            weekday: "long",
+            month: "long",
+            day: "numeric",
+            year: "numeric"
+            
+
+        });
+
+    // Temperature
+
+    document.getElementById("temperature").textContent =
+        `${data.temperature}°`;
+
+    // Description
+
+    document.getElementById("description").textContent =
+        data.description;
+
+    // Weather Icon
+
+    document.getElementById("weatherIcon").src =
+        `https://openweathermap.org/img/wn/${data.icon}@4x.png`;
+
+    // Left Cards
+
+    document.getElementById("feelsLike").textContent =
+        `${data.feelsLike}°`;
+
+    document.getElementById("humidity").textContent =
+        `${data.humidity}%`;
+
+    document.getElementById("wind").textContent =
+        `${data.wind} m/s`;
+
+    document.getElementById("pressure").textContent =
+        `${data.pressure} hPa`;
+
+    // Right Panel
+
+    document.getElementById("country").textContent =
+        data.country;
+
+    document.getElementById("maxTemp").textContent =
+        `${data.maxTemp}°`;
+
+    document.getElementById("minTemp").textContent =
+        `${data.minTemp}°`;
+
+    document.getElementById("visibility").textContent =
+        `${data.visibility} km`;
+
+    document.getElementById("pressure2").textContent =
+        `${data.pressure} hPa`;
+
+    document.getElementById("condition").textContent =
+        data.condition;
+
+    changeBackground(data.condition);
+
+}
+
+function changeBackground(weather){
+
+const body=document.body;
+
+switch(weather){
+
+case "Clear":
+
+body.style.background=
+"linear-gradient(135deg,#1E3C72,#2A5298)";
+break;
+
+case "Clouds":
+
+body.style.background=
+"linear-gradient(135deg,#485563,#29323C)";
+break;
+
+case "Rain":
+
+body.style.background=
+"linear-gradient(135deg,#0F2027,#203A43,#2C5364)";
+break;
+
+case "Snow":
+
+body.style.background=
+"linear-gradient(135deg,#BDC3C7,#2C3E50)";
+break;
+
+case "Thunderstorm":
+
+body.style.background=
+"linear-gradient(135deg,#141E30,#243B55)";
+break;
+
+case "Drizzle":
+
+body.style.background=
+"linear-gradient(135deg,#3E5151,#DECBA4)";
+break;
+
+case "Mist":
+
+body.style.background=
+"linear-gradient(135deg,#757F9A,#D7DDE8)";
+break;
+
+default:
+
+body.style.background=
+"linear-gradient(135deg,#080B2D,#11185C,#1E2D7D)";
+
+}
+
+}
+
+function getLocation() {
+
+    if (!navigator.geolocation) {
 
         alert("Geolocation is not supported.");
 
@@ -138,24 +189,58 @@ function getLocation(){
 
     }
 
-    navigator.geolocation.getCurrentPosition(
+    navigator.geolocation.getCurrentPosition(async position => {
 
-        position=>{
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
 
-            const lat=position.coords.latitude;
+        fetchWeather(`/weather?lat=${lat}&lon=${lon}`);
 
-            const lon=position.coords.longitude;
+    });
 
-            fetchWeather(`/weather?lat=${lat}&lon=${lon}`);
+}
+function showError(message){
 
-        },
+    document.getElementById("cityName").textContent="Oops!";
 
-        ()=>{
+    document.getElementById("todayDate").textContent="";
 
-            alert("Unable to get your location.");
+    document.getElementById("temperature").textContent="--";
 
-        }
+    document.getElementById("description").textContent=message;
 
-    );
+    document.getElementById("weatherIcon").src="";
+}
+async function loadForecast(city){
+
+    const response = await fetch(`/forecast?city=${city}`);
+
+    const data = await response.json();
+
+    const container =
+        document.getElementById("forecastContainer");
+
+    container.innerHTML = "";
+
+    data.forEach(day=>{
+
+        container.innerHTML += `
+
+        <div class="forecast-card">
+
+            <h3>${day.day}</h3>
+
+            <img
+            src="https://openweathermap.org/img/wn/${day.icon}@2x.png">
+
+            <h2>${day.temp}°</h2>
+
+            <p>${day.weather}</p>
+
+        </div>
+
+        `;
+
+    });
 
 }
