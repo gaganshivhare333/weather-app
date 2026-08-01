@@ -21,6 +21,9 @@
 </head>
 
 <body>
+    <div class="background-blur blur1"></div>
+<div class="background-blur blur2"></div>
+<div class="background-blur blur3"></div>
 
 <div class="container">
 
@@ -30,9 +33,10 @@
 
         <div class="logo">
 
-            <img id="logoIcon"
-                 src="https://openweathermap.org/img/wn/01d.png"
-                 alt="logo">
+            <img
+                id="logoIcon"
+                src="https://openweathermap.org/img/wn/01d.png"
+                alt="Weather">
 
             <span>WeatherNow</span>
 
@@ -40,7 +44,7 @@
 
         <button id="unitToggle">
 
-            °C / °F
+            °C
 
         </button>
 
@@ -50,23 +54,16 @@
 
     <section class="hero">
 
-        <h1>
+        <h1>How's the weather today?</h1>
 
-            How's the weather today?
-
-        </h1>
-
-        <form class="search-box"
-              onsubmit="getWeather(event)">
+        <form
+            class="search-box"
+            onsubmit="getWeather(event)">
 
             <input
-
                 id="city"
-
                 type="text"
-
                 placeholder="Search for a city..."
-
                 autocomplete="off">
 
             <button type="submit">
@@ -78,9 +75,7 @@
         </form>
 
         <button
-
             class="location-btn"
-
             onclick="getLocation()">
 
             📍 Use My Location
@@ -91,17 +86,13 @@
 
     <!-- ================= LOADER ================= -->
 
-    <div id="loader"
-
-         class="loader hidden">
+    <div
+        id="loader"
+        class="loader hidden">
 
         <div class="spinner"></div>
 
-        <p>
-
-            Fetching weather...
-
-        </p>
+        <p>Fetching weather...</p>
 
     </div>
 
@@ -109,11 +100,13 @@
 
     <section class="dashboard">
 
-        <!-- LEFT -->
+        <!-- LEFT SIDE -->
 
         <div class="left">
 
-            <div class="weather-card fade-in">
+            <div
+                id="weatherCard"
+                class="weather-card">
 
                 <div class="weather-top">
 
@@ -133,39 +126,31 @@
 
                         <p id="updatedTime">
 
-                            Last Updated --
+                            Last Updated --:--
 
                         </p>
 
                     </div>
 
                     <img
-
                         id="weatherIcon"
-
                         class="weather-icon"
-
                         src=""
-
-                        alt="Weather">
+                        alt="Weather Icon">
 
                 </div>
 
                 <div
-
-                    class="temperature"
-
-                    id="temperature">
+                    id="temperature"
+                    class="temperature">
 
                     --
 
                 </div>
 
                 <p
-
-                    class="description"
-
-                    id="description">
+                    id="description"
+                    class="description">
 
                     Weather Description
 
@@ -179,97 +164,49 @@
 
                 <div class="card">
 
-                    <h4>
+                    <h4>🌡 Feels Like</h4>
 
-                        🌡 Feels Like
-
-                    </h4>
-
-                    <span id="feelsLike">
-
-                        --
-
-                    </span>
+                    <span id="feelsLike">--</span>
 
                 </div>
 
                 <div class="card">
 
-                    <h4>
+                    <h4>💧 Humidity</h4>
 
-                        💧 Humidity
-
-                    </h4>
-
-                    <span id="humidity">
-
-                        --
-
-                    </span>
+                    <span id="humidity">--</span>
 
                 </div>
 
                 <div class="card">
 
-                    <h4>
+                    <h4>🌬 Wind</h4>
 
-                        🌬 Wind
-
-                    </h4>
-
-                    <span id="wind">
-
-                        --
-
-                    </span>
+                    <span id="wind">--</span>
 
                 </div>
 
                 <div class="card">
 
-                    <h4>
+                    <h4>🌡 Pressure</h4>
 
-                        🌡 Pressure
-
-                    </h4>
-
-                    <span id="pressure">
-
-                        --
-
-                    </span>
+                    <span id="pressure">--</span>
 
                 </div>
 
                 <div class="card">
 
-                    <h4>
+                    <h4>🌅 Sunrise</h4>
 
-                        🌅 Sunrise
-
-                    </h4>
-
-                    <span id="sunrise">
-
-                        --
-
-                    </span>
+                    <span id="sunrise">--</span>
 
                 </div>
 
                 <div class="card">
 
-                    <h4>
+                    <h4>🌇 Sunset</h4>
 
-                        🌇 Sunset
-
-                    </h4>
-
-                    <span id="sunset">
-
-                        --
-
-                    </span>
+                    <span id="sunset">--</span>
 
                 </div>
 
@@ -277,117 +214,65 @@
 
         </div>
 
-        <!-- RIGHT -->
+        <!-- RIGHT SIDE -->
 
-        <div class="right">
+        <aside class="right">
 
-            <h2>
-
-                Weather Details
-
-            </h2>
+            <h2>Weather Details</h2>
 
             <div class="details">
 
                 <div class="detail">
 
-                    <span>
+                    <span>📍 Country</span>
 
-                        📍 Country
-
-                    </span>
-
-                    <span id="country">
-
-                        --
-
-                    </span>
+                    <span id="country">--</span>
 
                 </div>
 
                 <div class="detail">
 
-                    <span>
+                    <span>⬆ Max Temp</span>
 
-                        ⬆ Max Temp
-
-                    </span>
-
-                    <span id="maxTemp">
-
-                        --
-
-                    </span>
+                    <span id="maxTemp">--</span>
 
                 </div>
 
                 <div class="detail">
 
-                    <span>
+                    <span>⬇ Min Temp</span>
 
-                        ⬇ Min Temp
-
-                    </span>
-
-                    <span id="minTemp">
-
-                        --
-
-                    </span>
+                    <span id="minTemp">--</span>
 
                 </div>
 
                 <div class="detail">
 
-                    <span>
+                    <span>👁 Visibility</span>
 
-                        👁 Visibility
-
-                    </span>
-
-                    <span id="visibility">
-
-                        --
-
-                    </span>
+                    <span id="visibility">--</span>
 
                 </div>
 
                 <div class="detail">
 
-                    <span>
+                    <span>🌡 Pressure</span>
 
-                        🌡 Pressure
-
-                    </span>
-
-                    <span id="pressure2">
-
-                        --
-
-                    </span>
+                    <span id="pressure2">--</span>
 
                 </div>
 
                 <div class="detail">
 
-                    <span>
+                    <span>☁ Condition</span>
 
-                        ☁ Condition
-
-                    </span>
-
-                    <span id="condition">
-
-                        --
-
-                    </span>
+                    <span id="condition">--</span>
 
                 </div>
 
             </div>
 
-        </div>
+        </aside>
 
     </section>
 
@@ -402,9 +287,7 @@
         </h2>
 
         <div
-
             id="forecastContainer"
-
             class="forecast-container">
 
         </div>

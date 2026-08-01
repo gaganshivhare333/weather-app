@@ -156,46 +156,39 @@ function getWindDirection(deg){
 
 function changeBackground(condition){
 
-const body=document.body;
+    const body = document.body;
 
-switch(condition){
+    switch(condition){
 
-case "Clear":
+        case "Clear":
+            body.style.background =
+            "linear-gradient(135deg,#06062B,#151557,#2D3D9F)";
+            break;
 
-body.style.background=
-"linear-gradient(135deg,#87CEEB,#BFE9FF,#F5FDFF)";
-break;
+        case "Clouds":
+            body.style.background =
+            "linear-gradient(135deg,#090A35,#22264D,#414A7A)";
+            break;
 
-case "Clouds":
+        case "Rain":
+            body.style.background =
+            "linear-gradient(135deg,#05091D,#16213E,#23395B)";
+            break;
 
-body.style.background=
-"linear-gradient(135deg,#D6DCE5,#EDF1F5,#FFFFFF)";
-break;
+        case "Thunderstorm":
+            body.style.background =
+            "linear-gradient(135deg,#050505,#1A1A2E,#2D2D44)";
+            break;
 
-case "Rain":
+        case "Snow":
+            body.style.background =
+            "linear-gradient(135deg,#1B1D3B,#394867,#5C6E91)";
+            break;
 
-body.style.background=
-"linear-gradient(135deg,#7A9EBE,#B3C8D9,#DDEAF4)";
-break;
-
-case "Thunderstorm":
-
-body.style.background=
-"linear-gradient(135deg,#4A5568,#66738A,#94A3B8)";
-break;
-
-case "Snow":
-
-body.style.background=
-"linear-gradient(135deg,#FFFFFF,#EAF7FF,#D9F0FF)";
-break;
-
-default:
-
-body.style.background=
-"linear-gradient(135deg,#EAF6FF,#D8ECFF,#C7E6FF)";
-
-}
+        default:
+            body.style.background =
+            "linear-gradient(135deg,#06062B,#151557,#2D3D9F)";
+    }
 
 }
 
