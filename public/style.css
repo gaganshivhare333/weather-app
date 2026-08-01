@@ -168,9 +168,9 @@ header{
 
     grid-template-columns:2fr 1fr;
 
-    gap:30px;
+    gap:35px;
 
-    margin-top:40px;
+    align-items:start;
 
 }
 .weather-card{
@@ -630,5 +630,70 @@ text-align:center;
 color:#bbb;
 
 font-size:14px;
+
+}
+.forecast-section{
+
+    margin-top:60px;
+
+}
+
+.forecast-section h2{
+
+    color:#24324A;
+
+    margin-bottom:25px;
+
+    font-size:32px;
+
+}
+
+.forecast-container{
+
+    display:grid;
+
+    grid-template-columns:repeat(5,1fr);
+
+    gap:20px;
+
+}
+
+.forecast-card{
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:25px;
+
+    text-align:center;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+}
+
+.forecast-card img{
+
+    width:70px;
+
+}
+
+.forecast-card h2{
+
+    color:#24324A;
+
+    margin:10px 0;
+
+}
+
+.forecast-card h3{
+
+    color:#4F6BFF;
+
+}
+
+.forecast-card p{
+
+    color:#666;
 
 }

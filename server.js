@@ -80,6 +80,8 @@ app.get("/forecast", async (req, res) => {
 
     try {
 
+        console.log("Forecast requested for:", city);
+
         const response = await axios.get(
             `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${process.env.API_KEY}&units=metric`
         );
@@ -88,33 +90,28 @@ app.get("/forecast", async (req, res) => {
             .filter(item => item.dt_txt.includes("12:00:00"))
             .slice(0, 5)
             .map(item => ({
-
                 day: new Date(item.dt_txt).toLocaleDateString("en-US", {
                     weekday: "short"
                 }),
-
                 temp: Math.round(item.main.temp),
-
                 icon: item.weather[0].icon,
-
                 weather: item.weather[0].main
-
             }));
 
         res.json(forecast);
 
-    } catch (error) {
+    }catch (error) {
 
-        res.status(500).json({
-            message: "Unable to fetch forecast"
-        });
+    console.error("Forecast Error:");
 
-    }
+    console.error(error.response?.data || error.message);
 
+    res.status(500).json({
+        message: "Unable to fetch forecast"
+    });
+
+}
 });
-
 app.listen(PORT, () => {
-
-    console.log(`Server running on port ${PORT}`);
-
+    console.log(`Server running on http://localhost:${PORT}`);
 });

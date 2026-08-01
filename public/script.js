@@ -131,50 +131,32 @@ switch(weather){
 
 case "Clear":
 
-body.style.background=
-"linear-gradient(135deg,#1E3C72,#2A5298)";
+body.style.background="linear-gradient(135deg,#F4FAFF,#EAF6FF,#DCEFFF)";
 break;
 
 case "Clouds":
 
-body.style.background=
-"linear-gradient(135deg,#485563,#29323C)";
+body.style.background="linear-gradient(135deg,#EEF4F8,#E1EBF4,#D4E2EE)";
 break;
 
 case "Rain":
 
-body.style.background=
-"linear-gradient(135deg,#0F2027,#203A43,#2C5364)";
+body.style.background="linear-gradient(135deg,#E8F3FA,#D5E8F7,#C2DDF2)";
 break;
 
 case "Snow":
 
-body.style.background=
-"linear-gradient(135deg,#BDC3C7,#2C3E50)";
+body.style.background="linear-gradient(135deg,#FFFFFF,#F3F8FC,#E6F2FF)";
 break;
 
 case "Thunderstorm":
 
-body.style.background=
-"linear-gradient(135deg,#141E30,#243B55)";
-break;
-
-case "Drizzle":
-
-body.style.background=
-"linear-gradient(135deg,#3E5151,#DECBA4)";
-break;
-
-case "Mist":
-
-body.style.background=
-"linear-gradient(135deg,#757F9A,#D7DDE8)";
+body.style.background="linear-gradient(135deg,#E2EAF2,#D2DDE8,#C2D2E0)";
 break;
 
 default:
 
-body.style.background=
-"linear-gradient(135deg,#080B2D,#11185C,#1E2D7D)";
+body.style.background="linear-gradient(135deg,#F4FAFF,#EAF6FF,#DCEFFF)";
 
 }
 
@@ -214,34 +196,39 @@ function showError(message){
 }
 async function loadForecast(city){
 
-    const response = await fetch(`/forecast?city=${city}`);
+    try{
 
-    const data = await response.json();
+        console.log("Loading forecast for:", city);
 
-    const container =
-        document.getElementById("forecastContainer");
+        const response = await fetch(`/forecast?city=${city}`);
 
-    container.innerHTML = "";
+        console.log("Status:", response.status);
 
-    data.forEach(day=>{
+        const data = await response.json();
 
-        container.innerHTML += `
+        console.log(data);
 
-        <div class="forecast-card">
+        const container = document.getElementById("forecastContainer");
 
-            <h3>${day.day}</h3>
+        container.innerHTML="";
 
-            <img
-            src="https://openweathermap.org/img/wn/${day.icon}@2x.png">
+        data.forEach(day=>{
 
-            <h2>${day.temp}°</h2>
+            container.innerHTML += `
+                <div class="forecast-card">
+                    <h3>${day.day}</h3>
+                    <img src="https://openweathermap.org/img/wn/${day.icon}@2x.png">
+                    <h2>${day.temp}°</h2>
+                    <p>${day.weather}</p>
+                </div>
+            `;
 
-            <p>${day.weather}</p>
+        });
 
-        </div>
+    }catch(error){
 
-        `;
+        console.log(error);
 
-    });
+    }
 
 }
