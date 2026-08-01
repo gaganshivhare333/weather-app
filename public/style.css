@@ -697,3 +697,67 @@ font-size:14px;
     color:#666;
 
 }
+.fade-in{
+    animation:fadeIn .7s ease;
+}
+
+@keyframes fadeIn{
+
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+@media(max-width:900px){
+
+.dashboard{
+
+grid-template-columns:1fr;
+
+}
+
+.forecast-container{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+.search-box{
+
+flex-direction:column;
+
+}
+
+.search-box input{
+
+width:100%;
+
+}
+
+.search-box button{
+
+width:100%;
+
+}
+
+.weather-top{
+
+flex-direction:column;
+
+text-align:center;
+
+}
+
+.weather-icon{
+
+margin-top:20px;
+
+}
+
+}

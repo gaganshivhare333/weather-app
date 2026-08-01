@@ -1,3 +1,5 @@
+let currentWeather = null;
+let isCelsius = true;
 async function getWeather(event) {
 
     if (event) event.preventDefault();
@@ -51,40 +53,39 @@ async function fetchWeather(url){
 
 function updateUI(data) {
 
-    // City
+    currentWeather = data;
+
     document.getElementById("cityName").textContent =
         `${data.city}, ${data.country}`;
 
-    // Date
     const today = new Date();
 
     document.getElementById("todayDate").textContent =
         today.toLocaleDateString("en-US", {
-
             weekday: "long",
             month: "long",
             day: "numeric",
             year: "numeric"
-
-
         });
 
-    // Temperature
+    document.getElementById("updatedTime").textContent =
+        "Last Updated: " +
+        today.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit"
+        });
 
     document.getElementById("temperature").textContent =
         `${data.temperature}°`;
 
-    // Description
-
     document.getElementById("description").textContent =
         data.description;
-
-    // Weather Icon
 
     document.getElementById("weatherIcon").src =
         `https://openweathermap.org/img/wn/${data.icon}@4x.png`;
 
-    // Left Cards
+    document.getElementById("logoIcon").src =
+        `https://openweathermap.org/img/wn/${data.icon}.png`;
 
     document.getElementById("feelsLike").textContent =
         `${data.feelsLike}°`;
@@ -93,12 +94,10 @@ function updateUI(data) {
         `${data.humidity}%`;
 
     document.getElementById("wind").textContent =
-        `${data.wind} m/s`;
+        `${data.wind} m/s ${getWindDirection(data.windDeg)}`;
 
     document.getElementById("pressure").textContent =
         `${data.pressure} hPa`;
-
-    // Right Panel
 
     document.getElementById("country").textContent =
         data.country;
@@ -118,45 +117,83 @@ function updateUI(data) {
     document.getElementById("condition").textContent =
         data.condition;
 
+    document.getElementById("sunrise").textContent =
+        formatTime(data.sunrise);
+
+    document.getElementById("sunset").textContent =
+        formatTime(data.sunset);
+
     changeBackground(data.condition);
+
     loadForecast(data.city);
+}
+function formatTime(unixTime){
+
+    if(!unixTime) return "--";
+
+    return new Date(unixTime * 1000)
+        .toLocaleTimeString([],{
+            hour:"2-digit",
+            minute:"2-digit"
+        });
 
 }
 
-function changeBackground(weather){
+function getWindDirection(deg){
+
+    if(deg===undefined) return "";
+
+    const directions=[
+        "N","NE","E","SE",
+        "S","SW","W","NW"
+    ];
+
+    return directions[
+        Math.round(deg/45)%8
+    ];
+
+}
+
+function changeBackground(condition){
 
 const body=document.body;
 
-switch(weather){
+switch(condition){
 
 case "Clear":
 
-body.style.background="linear-gradient(135deg,#F4FAFF,#EAF6FF,#DCEFFF)";
+body.style.background=
+"linear-gradient(135deg,#87CEEB,#BFE9FF,#F5FDFF)";
 break;
 
 case "Clouds":
 
-body.style.background="linear-gradient(135deg,#EEF4F8,#E1EBF4,#D4E2EE)";
+body.style.background=
+"linear-gradient(135deg,#D6DCE5,#EDF1F5,#FFFFFF)";
 break;
 
 case "Rain":
 
-body.style.background="linear-gradient(135deg,#E8F3FA,#D5E8F7,#C2DDF2)";
-break;
-
-case "Snow":
-
-body.style.background="linear-gradient(135deg,#FFFFFF,#F3F8FC,#E6F2FF)";
+body.style.background=
+"linear-gradient(135deg,#7A9EBE,#B3C8D9,#DDEAF4)";
 break;
 
 case "Thunderstorm":
 
-body.style.background="linear-gradient(135deg,#E2EAF2,#D2DDE8,#C2D2E0)";
+body.style.background=
+"linear-gradient(135deg,#4A5568,#66738A,#94A3B8)";
+break;
+
+case "Snow":
+
+body.style.background=
+"linear-gradient(135deg,#FFFFFF,#EAF7FF,#D9F0FF)";
 break;
 
 default:
 
-body.style.background="linear-gradient(135deg,#F4FAFF,#EAF6FF,#DCEFFF)";
+body.style.background=
+"linear-gradient(135deg,#EAF6FF,#D8ECFF,#C7E6FF)";
 
 }
 
@@ -232,3 +269,28 @@ async function loadForecast(city){
     }
 
 }
+document.getElementById("unitToggle").addEventListener("click",()=>{
+
+    if(!currentWeather) return;
+
+    isCelsius=!isCelsius;
+
+    const convert=t=>isCelsius
+        ? t
+        : (t*9/5+32);
+
+    const symbol=isCelsius?"°C":"°F";
+
+    document.getElementById("temperature").textContent=
+        `${Math.round(convert(currentWeather.temperature))}${symbol}`;
+
+    document.getElementById("feelsLike").textContent=
+        `${Math.round(convert(currentWeather.feelsLike))}${symbol}`;
+
+    document.getElementById("maxTemp").textContent=
+        `${Math.round(convert(currentWeather.maxTemp))}${symbol}`;
+
+    document.getElementById("minTemp").textContent=
+        `${Math.round(convert(currentWeather.minTemp))}${symbol}`;
+
+});

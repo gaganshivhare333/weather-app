@@ -1,3 +1,4 @@
+
 const express = require("express");
 const axios = require("axios");
 const dotenv = require("dotenv");
@@ -33,33 +34,39 @@ app.get("/weather", async (req, res) => {
 
         res.json({
 
-            city: data.name,
+    city: data.name,
 
-            country: data.sys.country,
+    country: data.sys.country,
 
-            temperature: Math.round(data.main.temp),
+    temperature: Math.round(data.main.temp),
 
-            feelsLike: Math.round(data.main.feels_like),
+    feelsLike: Math.round(data.main.feels_like),
 
-            minTemp: Math.round(data.main.temp_min),
+    minTemp: Math.round(data.main.temp_min),
 
-            maxTemp: Math.round(data.main.temp_max),
+    maxTemp: Math.round(data.main.temp_max),
 
-            humidity: data.main.humidity,
+    humidity: data.main.humidity,
 
-            wind: data.wind.speed,
+    wind: data.wind.speed,
 
-            pressure: data.main.pressure,
+    windDeg: data.wind.deg,
 
-            visibility: (data.visibility / 1000).toFixed(1),
+    pressure: data.main.pressure,
 
-            description: data.weather[0].description,
+    visibility: (data.visibility / 1000).toFixed(1),
 
-            condition: data.weather[0].main,
+    sunrise: data.sys.sunrise,
 
-            icon: data.weather[0].icon
+    sunset: data.sys.sunset,
 
-        });
+    description: data.weather[0].description,
+
+    condition: data.weather[0].main,
+
+    icon: data.weather[0].icon
+
+});
 
     }
 
@@ -111,6 +118,9 @@ app.get("/forecast", async (req, res) => {
     });
 
 }
+});
+app.get("/test", (req, res) => {
+    res.send("Forecast route file is loaded!");
 });
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

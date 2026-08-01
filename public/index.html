@@ -5,23 +5,18 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>WeatherNow</title>
 
-    <link rel="preconnect"
-          href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
 
-    <link rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet">
+        rel="stylesheet">
 
-    <link rel="stylesheet"
-          href="style.css">
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -29,19 +24,29 @@
 
 <div class="container">
 
-    <!-- Header -->
+    <!-- ================= HEADER ================= -->
 
     <header>
 
         <div class="logo">
 
-            🌤 WeatherNow
+            <img id="logoIcon"
+                 src="https://openweathermap.org/img/wn/01d.png"
+                 alt="logo">
+
+            <span>WeatherNow</span>
 
         </div>
 
+        <button id="unitToggle">
+
+            °C / °F
+
+        </button>
+
     </header>
 
-    <!-- Hero -->
+    <!-- ================= HERO ================= -->
 
     <section class="hero">
 
@@ -51,14 +56,17 @@
 
         </h1>
 
-        <form
-            class="search-box"
-            onsubmit="getWeather(event)">
+        <form class="search-box"
+              onsubmit="getWeather(event)">
 
             <input
+
                 id="city"
+
                 type="text"
+
                 placeholder="Search for a city..."
+
                 autocomplete="off">
 
             <button type="submit">
@@ -70,7 +78,9 @@
         </form>
 
         <button
+
             class="location-btn"
+
             onclick="getLocation()">
 
             📍 Use My Location
@@ -79,18 +89,23 @@
 
     </section>
 
-    <!-- Loader -->
+    <!-- ================= LOADER ================= -->
 
     <div id="loader"
+
          class="loader hidden">
 
         <div class="spinner"></div>
 
-        <p>Fetching weather...</p>
+        <p>
+
+            Fetching weather...
+
+        </p>
 
     </div>
 
-    <!-- Dashboard -->
+    <!-- ================= DASHBOARD ================= -->
 
     <section class="dashboard">
 
@@ -98,7 +113,7 @@
 
         <div class="left">
 
-            <div class="weather-card">
+            <div class="weather-card fade-in">
 
                 <div class="weather-top">
 
@@ -116,18 +131,30 @@
 
                         </p>
 
+                        <p id="updatedTime">
+
+                            Last Updated --
+
+                        </p>
+
                     </div>
 
                     <img
+
                         id="weatherIcon"
+
                         class="weather-icon"
+
                         src=""
-                        alt="Weather Icon">
+
+                        alt="Weather">
 
                 </div>
 
                 <div
+
                     class="temperature"
+
                     id="temperature">
 
                     --
@@ -135,7 +162,9 @@
                 </div>
 
                 <p
+
                     class="description"
+
                     id="description">
 
                     Weather Description
@@ -144,39 +173,103 @@
 
             </div>
 
-            <!-- Bottom Cards -->
+            <!-- ================= WEATHER STATS ================= -->
 
             <div class="stats">
 
                 <div class="card">
 
-                    <h4>Feels Like</h4>
+                    <h4>
 
-                    <span id="feelsLike">--</span>
+                        🌡 Feels Like
 
-                </div>
+                    </h4>
 
-                <div class="card">
+                    <span id="feelsLike">
 
-                    <h4>Humidity</h4>
+                        --
 
-                    <span id="humidity">--</span>
-
-                </div>
-
-                <div class="card">
-
-                    <h4>Wind</h4>
-
-                    <span id="wind">--</span>
+                    </span>
 
                 </div>
 
                 <div class="card">
 
-                    <h4>Pressure</h4>
+                    <h4>
 
-                    <span id="pressure">--</span>
+                        💧 Humidity
+
+                    </h4>
+
+                    <span id="humidity">
+
+                        --
+
+                    </span>
+
+                </div>
+
+                <div class="card">
+
+                    <h4>
+
+                        🌬 Wind
+
+                    </h4>
+
+                    <span id="wind">
+
+                        --
+
+                    </span>
+
+                </div>
+
+                <div class="card">
+
+                    <h4>
+
+                        🌡 Pressure
+
+                    </h4>
+
+                    <span id="pressure">
+
+                        --
+
+                    </span>
+
+                </div>
+
+                <div class="card">
+
+                    <h4>
+
+                        🌅 Sunrise
+
+                    </h4>
+
+                    <span id="sunrise">
+
+                        --
+
+                    </span>
+
+                </div>
+
+                <div class="card">
+
+                    <h4>
+
+                        🌇 Sunset
+
+                    </h4>
+
+                    <span id="sunset">
+
+                        --
+
+                    </span>
 
                 </div>
 
@@ -198,49 +291,97 @@
 
                 <div class="detail">
 
-                    <span>📍 Country</span>
+                    <span>
 
-                    <span id="country">--</span>
+                        📍 Country
 
-                </div>
+                    </span>
 
-                <div class="detail">
+                    <span id="country">
 
-                    <span>⬆ Max Temp</span>
+                        --
 
-                    <span id="maxTemp">--</span>
-
-                </div>
-
-                <div class="detail">
-
-                    <span>⬇ Min Temp</span>
-
-                    <span id="minTemp">--</span>
+                    </span>
 
                 </div>
 
                 <div class="detail">
 
-                    <span>👁 Visibility</span>
+                    <span>
 
-                    <span id="visibility">--</span>
+                        ⬆ Max Temp
+
+                    </span>
+
+                    <span id="maxTemp">
+
+                        --
+
+                    </span>
 
                 </div>
 
                 <div class="detail">
 
-                    <span>🌡 Pressure</span>
+                    <span>
 
-                    <span id="pressure2">--</span>
+                        ⬇ Min Temp
+
+                    </span>
+
+                    <span id="minTemp">
+
+                        --
+
+                    </span>
 
                 </div>
 
                 <div class="detail">
 
-                    <span>☁ Condition</span>
+                    <span>
 
-                    <span id="condition">--</span>
+                        👁 Visibility
+
+                    </span>
+
+                    <span id="visibility">
+
+                        --
+
+                    </span>
+
+                </div>
+
+                <div class="detail">
+
+                    <span>
+
+                        🌡 Pressure
+
+                    </span>
+
+                    <span id="pressure2">
+
+                        --
+
+                    </span>
+
+                </div>
+
+                <div class="detail">
+
+                    <span>
+
+                        ☁ Condition
+
+                    </span>
+
+                    <span id="condition">
+
+                        --
+
+                    </span>
 
                 </div>
 
@@ -250,7 +391,7 @@
 
     </section>
 
-    <!-- Forecast -->
+    <!-- ================= FORECAST ================= -->
 
     <section class="forecast-section">
 
@@ -261,14 +402,16 @@
         </h2>
 
         <div
+
             id="forecastContainer"
+
             class="forecast-container">
 
         </div>
 
     </section>
 
-    <!-- Footer -->
+    <!-- ================= FOOTER ================= -->
 
     <footer>
 
