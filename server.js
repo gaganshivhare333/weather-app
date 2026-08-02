@@ -1,14 +1,89 @@
-
+const mongoose = require("mongoose");
 const express = require("express");
 const axios = require("axios");
 const dotenv = require("dotenv");
 
 dotenv.config();
 
+// ===============================
+// MongoDB Connection
+// ===============================
+
+console.log("🔄 Connecting to MongoDB...");
+
+mongoose.connect(process.env.MONGO_URI)
+.then(() => {
+    console.log("✅ MongoDB Connected Successfully");
+})
+.catch((err) => {
+    console.log("❌ MongoDB Connection Error");
+    console.log(err);
+});
+
+// ===============================
+// Weather Schema
+// ===============================
+
+const weatherSchema = new mongoose.Schema({
+
+    city: {
+        type: String,
+        required: true
+    },
+
+    country: {
+        type: String,
+        required: true
+    },
+
+    temperature: {
+        type: Number,
+        required: true
+    },
+
+    feelsLike: Number,
+
+    minTemp: Number,
+
+    maxTemp: Number,
+
+    humidity: Number,
+
+    pressure: Number,
+
+    visibility: Number,
+
+    windSpeed: Number,
+
+    windDegree: Number,
+
+    description: String,
+
+    condition: String,
+
+    icon: String,
+
+    searchedAt: {
+        type: Date,
+        default: Date.now
+    }
+
+});
+
+const Weather = mongoose.model("Weather", weatherSchema);
+
+// ===============================
+// Express App
+// ===============================
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.static("public"));
+
+// ===============================
+// Current Weather Route
+// ===============================
 
 app.get("/weather", async (req, res) => {
 
@@ -32,55 +107,96 @@ app.get("/weather", async (req, res) => {
 
         const data = response.data;
 
+        // ===============================
+        // Save Weather to MongoDB
+        // ===============================
+
+        const weather = new Weather({
+
+            city: data.name,
+            country: data.sys.country,
+
+            temperature: Math.round(data.main.temp),
+            feelsLike: Math.round(data.main.feels_like),
+            minTemp: Math.round(data.main.temp_min),
+            maxTemp: Math.round(data.main.temp_max),
+
+            humidity: data.main.humidity,
+            pressure: data.main.pressure,
+
+            visibility: data.visibility,
+
+            windSpeed: data.wind.speed,
+            windDegree: data.wind.deg,
+
+            description: data.weather[0].description,
+            condition: data.weather[0].main,
+            icon: data.weather[0].icon
+
+        });
+
+        await weather.save();
+
+        console.log("✅ Weather saved to MongoDB");
+
+        // ===============================
+        // Send Response
+        // ===============================
+
         res.json({
 
-    city: data.name,
+            city: data.name,
 
-    country: data.sys.country,
+            country: data.sys.country,
 
-    temperature: Math.round(data.main.temp),
+            temperature: Math.round(data.main.temp),
 
-    feelsLike: Math.round(data.main.feels_like),
+            feelsLike: Math.round(data.main.feels_like),
 
-    minTemp: Math.round(data.main.temp_min),
+            minTemp: Math.round(data.main.temp_min),
 
-    maxTemp: Math.round(data.main.temp_max),
+            maxTemp: Math.round(data.main.temp_max),
 
-    humidity: data.main.humidity,
+            humidity: data.main.humidity,
 
-    wind: data.wind.speed,
+            wind: data.wind.speed,
 
-    windDeg: data.wind.deg,
+            windDeg: data.wind.deg,
 
-    pressure: data.main.pressure,
+            pressure: data.main.pressure,
 
-    visibility: (data.visibility / 1000).toFixed(1),
+            visibility: (data.visibility / 1000).toFixed(1),
 
-    sunrise: data.sys.sunrise,
+            sunrise: data.sys.sunrise,
 
-    sunset: data.sys.sunset,
+            sunset: data.sys.sunset,
 
-    description: data.weather[0].description,
+            description: data.weather[0].description,
 
-    condition: data.weather[0].main,
+            condition: data.weather[0].main,
 
-    icon: data.weather[0].icon
-
-});
-
-    }
-
-    catch (error) {
-
-        res.status(404).json({
-
-            message: "City not found"
+            icon: data.weather[0].icon
 
         });
 
     }
 
+    catch (error) {
+
+        console.error(error.response?.data || error.message);
+
+        res.status(404).json({
+            message: "City not found"
+        });
+
+    }
+
 });
+
+// ===============================
+// Forecast Route
+// ===============================
+
 app.get("/forecast", async (req, res) => {
 
     const city = req.query.city;
@@ -90,7 +206,9 @@ app.get("/forecast", async (req, res) => {
         console.log("Forecast requested for:", city);
 
         const response = await axios.get(
+
             `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${process.env.API_KEY}&units=metric`
+
         );
 
         const forecast = response.data.list
@@ -107,21 +225,36 @@ app.get("/forecast", async (req, res) => {
 
         res.json(forecast);
 
-    }catch (error) {
+    }
 
-    console.error("Forecast Error:");
+    catch (error) {
 
-    console.error(error.response?.data || error.message);
+        console.error(error.response?.data || error.message);
 
-    res.status(500).json({
-        message: "Unable to fetch forecast"
-    });
+        res.status(500).json({
+            message: "Unable to fetch forecast"
+        });
 
-}
+    }
+
 });
+
+// ===============================
+// Test Route
+// ===============================
+
 app.get("/test", (req, res) => {
+
     res.send("Forecast route file is loaded!");
+
 });
+
+// ===============================
+// Start Server
+// ===============================
+
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+
+    console.log(`🚀 Server running at http://localhost:${PORT}`);
+
 });
