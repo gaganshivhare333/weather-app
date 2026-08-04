@@ -4,10 +4,12 @@ const axios = require("axios");
 const dotenv = require("dotenv");
 
 dotenv.config();
+console.log("MONGO_URI:");
+console.log(process.env.MONGO_URI);
 
-// ===============================
+// =========================================
 // MongoDB Connection
-// ===============================
+// =========================================
 
 console.log("🔄 Connecting to MongoDB...");
 
@@ -17,12 +19,12 @@ mongoose.connect(process.env.MONGO_URI)
 })
 .catch((err) => {
     console.log("❌ MongoDB Connection Error");
-    console.log(err);
+    console.error(err);
 });
 
-// ===============================
+// =========================================
 // Weather Schema
-// ===============================
+// =========================================
 
 const weatherSchema = new mongoose.Schema({
 
@@ -72,18 +74,18 @@ const weatherSchema = new mongoose.Schema({
 
 const Weather = mongoose.model("Weather", weatherSchema);
 
-// ===============================
+// =========================================
 // Express App
-// ===============================
+// =========================================
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.static("public"));
 
-// ===============================
+// =========================================
 // Current Weather Route
-// ===============================
+// =========================================
 
 app.get("/weather", async (req, res) => {
 
@@ -103,45 +105,59 @@ app.get("/weather", async (req, res) => {
 
         }
 
+        // Fetch weather
         const response = await axios.get(url);
-
         const data = response.data;
 
-        // ===============================
-        // Save Weather to MongoDB
-        // ===============================
+        // =====================================
+        // Save to MongoDB
+        // =====================================
 
-        const weather = new Weather({
+        try {
 
-            city: data.name,
-            country: data.sys.country,
+            const weather = new Weather({
 
-            temperature: Math.round(data.main.temp),
-            feelsLike: Math.round(data.main.feels_like),
-            minTemp: Math.round(data.main.temp_min),
-            maxTemp: Math.round(data.main.temp_max),
+                city: data.name,
+                country: data.sys.country,
 
-            humidity: data.main.humidity,
-            pressure: data.main.pressure,
+                temperature: Math.round(data.main.temp),
+                feelsLike: Math.round(data.main.feels_like),
+                minTemp: Math.round(data.main.temp_min),
+                maxTemp: Math.round(data.main.temp_max),
 
-            visibility: data.visibility,
+                humidity: data.main.humidity,
+                pressure: data.main.pressure,
 
-            windSpeed: data.wind.speed,
-            windDegree: data.wind.deg,
+                visibility: data.visibility,
 
-            description: data.weather[0].description,
-            condition: data.weather[0].main,
-            icon: data.weather[0].icon
+                windSpeed: data.wind.speed,
+                windDegree: data.wind.deg,
 
-        });
+                description: data.weather[0].description,
+                condition: data.weather[0].main,
+                icon: data.weather[0].icon
 
-        await weather.save();
+            });
 
-        console.log("✅ Weather saved to MongoDB");
+            const savedWeather = await weather.save();
 
-        // ===============================
+            console.log("=================================");
+            console.log("✅ Weather Saved to MongoDB");
+            console.log(savedWeather);
+            console.log("=================================");
+
+        } catch (dbError) {
+
+            console.log("=================================");
+            console.log("❌ MongoDB Save Failed");
+            console.error(dbError);
+            console.log("=================================");
+
+        }
+
+        // =====================================
         // Send Response
-        // ===============================
+        // =====================================
 
         res.json({
 
@@ -183,19 +199,34 @@ app.get("/weather", async (req, res) => {
 
     catch (error) {
 
-        console.error(error.response?.data || error.message);
+        console.log("=================================");
+        console.log("❌ Weather API Error");
 
-        res.status(404).json({
-            message: "City not found"
+        if (error.response) {
+
+            console.error(error.response.data);
+
+        } else {
+
+            console.error(error.message);
+
+        }
+
+        console.log("=================================");
+
+        res.status(500).json({
+
+            message: error.message
+
         });
 
     }
 
 });
 
-// ===============================
+// =========================================
 // Forecast Route
-// ===============================
+// =========================================
 
 app.get("/forecast", async (req, res) => {
 
@@ -229,29 +260,63 @@ app.get("/forecast", async (req, res) => {
 
     catch (error) {
 
-        console.error(error.response?.data || error.message);
+        console.log("❌ Forecast Error");
+
+        if (error.response) {
+            console.error(error.response.data);
+        } else {
+            console.error(error.message);
+        }
 
         res.status(500).json({
+
             message: "Unable to fetch forecast"
+
         });
 
     }
 
 });
 
-// ===============================
-// Test Route
-// ===============================
+// =========================================
+// View Saved Weather Records
+// =========================================
 
-app.get("/test", (req, res) => {
+app.get("/history", async (req, res) => {
 
-    res.send("Forecast route file is loaded!");
+    try {
+
+        const history = await Weather.find().sort({ searchedAt: -1 });
+
+        res.json(history);
+
+    } catch (err) {
+
+        console.error(err);
+
+        res.status(500).json({
+
+            message: "Unable to fetch history"
+
+        });
+
+    }
 
 });
 
-// ===============================
+// =========================================
+// Test Route
+// =========================================
+
+app.get("/test", (req, res) => {
+
+    res.send("Server is working!");
+
+});
+
+// =========================================
 // Start Server
-// ===============================
+// =========================================
 
 app.listen(PORT, () => {
 

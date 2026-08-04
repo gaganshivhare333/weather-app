@@ -1032,3 +1032,36 @@ footer{
     left:35%;
 
 }
+.history-section{
+    margin-top:40px;
+}
+
+.history-section h2{
+    margin-bottom:20px;
+}
+
+.history-card{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:15px;
+    margin-bottom:12px;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.15);
+    backdrop-filter:blur(10px);
+
+    color:white;
+}
+
+.history-city{
+    font-size:18px;
+    font-weight:bold;
+}
+
+.history-temp{
+    font-size:24px;
+    font-weight:bold;
+}
