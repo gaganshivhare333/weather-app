@@ -346,16 +346,15 @@ function changeBackground(condition) {
 function getLocation() {
 
     if (!navigator.geolocation) {
-
-        alert("Geolocation is not supported by your browser.");
-
+        alert("Geolocation is not supported by this browser.");
         return;
-
     }
 
     navigator.geolocation.getCurrentPosition(
 
-        position => {
+        (position) => {
+
+            console.log(position);
 
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
@@ -364,10 +363,34 @@ function getLocation() {
 
         },
 
-        () => {
+        (error) => {
 
-            alert("Unable to retrieve your location.");
+            console.log(error);
 
+            switch(error.code){
+
+                case error.PERMISSION_DENIED:
+                    alert("Location permission denied.");
+                    break;
+
+                case error.POSITION_UNAVAILABLE:
+                    alert("Location unavailable.");
+                    break;
+
+                case error.TIMEOUT:
+                    alert("Location request timed out.");
+                    break;
+
+                default:
+                    alert("Unable to retrieve your location.");
+            }
+
+        },
+
+        {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
         }
 
     );
